@@ -97,12 +97,24 @@ namespace lab4
                     j++;
                 }
             }
-            Console.WriteLine("Четные элементы удалены");
+            if (cnt != lst.Length)
+            {
+                Console.WriteLine("Четные элементы удалены");
+            }
+            else
+            {
+                Console.WriteLine("В массиве нет четных элементов");
+            }
             return tmpLst1;
         }
         static int[] AddingElements(int[] lst)  
         {
             int k = NumberInput("Введите натуральное k");
+            while (k < 1)
+            {
+                Console.WriteLine("Вы ввели неподходящее значение");
+                k = NumberInput("Введите натуральное k");
+            } 
             int[] tmpLst2 = new int[lst.Length + k];
             int j = 0;
             for (int i = 0; i < k + lst.Length; i++)
@@ -149,14 +161,14 @@ namespace lab4
             {
                 if (lst[i] % 2 == 0)
                 {
-                    Console.WriteLine($"Элемент - {lst[i]}, номер - {i + 1}, количество сравнений - {tmp_cnt}");
+                    Console.WriteLine($"Элемент - {lst[i]}, номер - {i + 1}, количество сравнений - {i+1}");
                     tmp_cnt++;
                     break;
                 }
             }
             if (tmp_cnt == 0)
             {
-                Console.WriteLine("В списке нет четных элементов");
+                Console.WriteLine("В массиве нет четных элементов");
             }
         }
         static int[] SortingArray(int[] lst)
