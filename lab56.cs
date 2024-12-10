@@ -258,6 +258,7 @@ namespace lab4
         static string ChangingWords(string str)
 
         {
+            str = str.Trim();
             string[] lst = str.Split();
             string firstWord = lst[0], lastWord = lst[lst.Length-1];
             string tmpLetter = Char.ToString(lastWord[0]);
@@ -276,6 +277,13 @@ namespace lab4
             lst[0] = lastWord;
             lst[lst.Length-1] = firstWord;
             string lstOut = string.Join(" ", lst);
+            if (lstOut.Substring(0,lstOut.Length-1) == str)
+            {
+                Console.WriteLine("Строка не изменена. Скорее всего, на вход была подана строка, несоответствующая заданию.");
+                return lstOut;
+            }
+            Console.WriteLine("Строка изменена");
+            Console.WriteLine(lstOut);
             return lstOut;
         }
         static string RandomString()
@@ -453,8 +461,6 @@ namespace lab4
                                             if (EmptyCheck(str))
                                             {
                                                 str = ChangingWords(str);
-                                                Console.WriteLine("Строка изменена");
-                                                Console.WriteLine(str);
                                             }
                                             break;
                                         }
