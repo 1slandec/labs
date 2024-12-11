@@ -4,7 +4,7 @@ using System.IO.IsolatedStorage;
 using System.Reflection.Metadata;
 using System.Security.Principal;
 using System.Diagnostics.CodeAnalysis;
-namespace lab4
+namespace lab56
 {
     internal class Program
     {
