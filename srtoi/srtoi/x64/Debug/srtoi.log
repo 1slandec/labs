@@ -1,0 +1,3 @@
+﻿  srtoi.cpp
+C:\Users\Mikhail\source\repos\srtoi\srtoi.cpp(390,9): warning C4101: a: неиспользованная локальная переменная
+  srtoi.vcxproj -> C:\Users\Mikhail\source\repos\srtoi\x64\Debug\srtoi.exe
