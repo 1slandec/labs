@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 #include <fstream>
 #include <Windows.h>
@@ -6,27 +6,24 @@
 using namespace std;
 #pragma execution_character_set("utf-8") 
 
-// Структура для победителя чемпионата
 struct Winner {
-    string name;  // Имя
-    string surname;   // Фамилия
-    string country;    // Страна
-    int age;          // Возраст
-    string team;      // Команда
-    int year;        // Год победы
+    string name;  
+    string surname;   
+    string country;    
+    int age;          
+    string team;      
+    int year;       
 };
 
-// Структура для индекса
+
 struct Index {
     string key;
     int originalIndex;
 };
 
-// --- Задание 1: Массивы с индексами ---
+// Задание 1
 
-// Ввод данных
-
-int intInput(string msg) {
+int intInput(string msg) { // Ввод целого числа
     int number;
     while (true) {
         cout << msg;
@@ -42,16 +39,16 @@ int intInput(string msg) {
     }
 }
 
-void printWinner(Winner w) {
+void printWinner(Winner w) { // Вывод одного объекта
     cout << "Имя: " << w.name << "\n"
-        << "Фамилия: " << w.surname<< "\n"
+        << "Фамилия: " << w.surname << "\n"
         << "Страна: " << w.country << "\n"
         << "Возраст: " << w.age << "\n"
         << "Команда: " << w.team << "\n"
         << "Год победы: " << w.year << "\n\n";
 }
 
-Winner inputWinner() {
+Winner inputWinner() { // Ввод одного объекта
     Winner temp;
     cout << "Введите данные чемпиона" << '\n';
     cout << "Имя: ";
@@ -67,19 +64,18 @@ Winner inputWinner() {
     return temp;
 }
 
-void inputWinners(Winner* winners, int n) {
+void inputWinners(Winner* winners, int n) { // Ввод списка объектов
     for (int i = 0; i < n; i++) {
         winners[i] = inputWinner();
     }
 }
 
-// Создание индекса по возрасту (убывание)
-void ageIndexation(Winner* winners, Index* ageIndex, int n) {
+
+void ageIndexation(Winner* winners, Index* ageIndex, int n) { // Индексация по возрасту (убывание)
     for (int i = 0; i < n; i++) {
         ageIndex[i].key = to_string(winners[i].age);
         ageIndex[i].originalIndex = i;
     }
-    // Пузырьковая сортировка по убыванию
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             if (ageIndex[j].key < ageIndex[j + 1].key) {
@@ -91,13 +87,13 @@ void ageIndexation(Winner* winners, Index* ageIndex, int n) {
     }
 }
 
-// Создание индекса по фамилии (возрастание)
-void surnameIndexation(Winner* winners, Index* surnameIndex, int n) {
+
+void surnameIndexation(Winner* winners, Index* surnameIndex, int n) { // Индексация по фамилии по алфавиту
     for (int i = 0; i < n; i++) {
         surnameIndex[i].key = winners[i].surname;
         surnameIndex[i].originalIndex = i;
     }
-    // Пузырьковая сортировка по возрастанию
+    
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             if (surnameIndex[j].key > surnameIndex[j + 1].key) {
@@ -109,8 +105,8 @@ void surnameIndexation(Winner* winners, Index* surnameIndex, int n) {
     }
 }
 
-// Вывод 
-void print1(Winner* winners, Index* index, int n) {
+
+void print1(Winner* winners, Index* index, int n) { // Вывод списка объектов
     for (int i = 0; i < n; i++) {
         cout << "Имя: " << winners[index[i].originalIndex].name << "\n"
             << "Фамилия: " << winners[index[i].originalIndex].surname << "\n"
@@ -121,8 +117,8 @@ void print1(Winner* winners, Index* index, int n) {
     }
 }
 
-// Рекурсивный бинарный поиск по фамилии
-int binarySearchSurname(Index* index, string key, int left, int right) {
+
+int binarySearchSurname(Index* index, string key, int left, int right) { // Рекурсивный бинарный поиск по фамилии
     if (left > right) return -1;
     int mid = left + (right - left) / 2;
     if (index[mid].key == key) return index[mid].originalIndex;
@@ -131,8 +127,8 @@ int binarySearchSurname(Index* index, string key, int left, int right) {
     return binarySearchSurname(index, key, left, mid - 1);
 }
 
-// Итеративный бинарный поиск по возрасту
-int binarySearchAge(Index* index, string key, int n) {
+
+int binarySearchAge(Index* index, string key, int n) { // Итеративный бинарный поиск по возрасту
     int left = 0, right = n - 1;
     while (left <= right) {
         int mid = left + (right - left) / 2;
@@ -143,8 +139,8 @@ int binarySearchAge(Index* index, string key, int n) {
     return -1;
 }
 
-// Редактирование записи
-void editWinner(Winner* winners, Index* ageIndex, Index* surnameIndex, int index, int n) {
+
+void editWinner(Winner* winners, Index* ageIndex, Index* surnameIndex, int index, int n) { // Редактирование записи по индексу в изначальном списке
     cout << "Имя: ";
     cin >> winners[index].name;
     cout << "Фамилия: ";
@@ -159,8 +155,8 @@ void editWinner(Winner* winners, Index* ageIndex, Index* surnameIndex, int index
     surnameIndexation(winners, surnameIndex, n);
 }
 
-// Удаление записи по фамилии
-void deleteWinner(Winner* winners, Index* ageIndex, Index* surnameIndex, int n, string lastName) {
+
+void deleteWinner(Winner* winners, Index* ageIndex, Index* surnameIndex, int n, string lastName) { // Удаление записи по фамилии
     int idx = binarySearchSurname(surnameIndex, lastName, 0, n - 1);
     if (idx != -1) {
         for (int i = idx; i < n - 1; i++) {
@@ -176,9 +172,9 @@ void deleteWinner(Winner* winners, Index* ageIndex, Index* surnameIndex, int n, 
     }
 }
 
-// --- Задание 2: Бинарное дерево ---
+// Задание 2
 
-struct TreeNode { //Узел бинарного дерева
+struct TreeNode { 
     string key;       // Фамилия
     int index;
     TreeNode* left;
@@ -203,7 +199,7 @@ TreeNode* inputSurnameBT(TreeNode* root, string key, int index) { //Вставк
     return root;
 }
 
-void outputSurnameBT(TreeNode* root, Winner* winners) { //Вывод по алфавиту c конца (фамилии)
+void outputSurnameBT(TreeNode* root, Winner* winners) { //Вывод по фамилии по алфавиту c конца
     if (root) {
         outputSurnameBT(root->right, winners);
         cout << "Имя: " << winners[root->index].name << "\n"
@@ -216,7 +212,7 @@ void outputSurnameBT(TreeNode* root, Winner* winners) { //Вывод по алф
     }
 }
 
-TreeNode* firstSurnameBT(TreeNode* root) { //Нахождение первой фамилии
+TreeNode* firstSurnameBT(TreeNode* root) { //Поиск первой фамилии
     while (root->left) root = root->left;
     return root;
 }
@@ -263,9 +259,9 @@ void searchSurnameBT(Winner* winners, TreeNode* root, string key) { //Поиск
     }
 }
 
-// --- Задание 3: Линейный список ---
+// Задание 3
 
-struct ListNode { //Узел линейного списка
+struct ListNode { 
     Winner data;
     ListNode* next;
 };
@@ -291,7 +287,7 @@ void insertSortedList(ListNode*& head, Winner w) { //Вставка узла в 
     current->next = newNode;
 }
 
-void printLinearListByInput(ListNode* head) { //Вывод списка так, ка кон есть
+void printLinearListByInput(ListNode* head) { //Вывод списка так, как он есть
     ListNode* current = head;
     while (current) {
         cout << "Имя: " << current->data.name << "\n"
@@ -305,7 +301,6 @@ void printLinearListByInput(ListNode* head) { //Вывод списка так, 
 }
 
 void printLinearListByAge(ListNode* head, int n) { //Вывод списка, отсортированного по убыванию возраста
-    // Копируем данные в массив для сортировки
     Winner* temp = new Winner[n];
     ListNode* current = head;
     int i = 0;
@@ -313,7 +308,6 @@ void printLinearListByAge(ListNode* head, int n) { //Вывод списка, о
         temp[i++] = current->data;
         current = current->next;
     }
-    // Сортировка
     for (int j = 0; j < n - 1; j++) {
         for (int k = 0; k < n - j - 1; k++) {
             if (temp[k].age < temp[k + 1].age) {
@@ -323,7 +317,6 @@ void printLinearListByAge(ListNode* head, int n) { //Вывод списка, о
             }
         }
     }
-    // Вывод
     for (int j = 0; j < n; j++) {
         cout << "Имя: " << temp[j].name << "\n"
             << "Фамилия: " << temp[j].surname << "\n"
@@ -388,17 +381,6 @@ int main() {
     SetConsoleOutputCP(65001);
     SetConsoleCP(65001);
     int a;
-    /*cout << "Готовый массив или ввод вручную?" << '\n';
-    cin >> a;
-    if (a == 1) {
-        int n;
-        cout << "Введите количество чемпионов: ";
-        cin >> n;
-        Winner* winners = new Winner[n];
-    }*/
-
-
-
     int choice, choice2, idx, idx2, index, n;
     TreeNode* root = nullptr;
     ListNode* head = nullptr;
@@ -425,127 +407,127 @@ int main() {
             winners[i] = preWinners[i];
         }
         break;
-    
+
     case 2:
         n = intInput("Введите количество чемпионов");
         winners = new Winner[n];
         inputWinners(winners, n);
         break;
-        }
+    }
     Index* ageIndex = new Index[n];
     Index* surnameIndex = new Index[n];
 
-        do {
-            choice = intInput("Выберите номер задания:\n1. Работа с индексами\n2. Работа с бинарным деревом\n3. Работа с линейным списком\n0. Выход\n");
-            switch (choice) {
-            case 1:
-                do {
-                    ageIndexation(winners, ageIndex, n);
-                    surnameIndexation(winners, surnameIndex, n);
-                    choice2 = intInput("Выберите номер задания:\n1. Вывод по убыванию возраста\n2. Вывод по фамилии (по алфавиту)\n3. Поиск по фамилии\n4. Поиск по возрасту\n5. Редактирование по индексу\n6. Удаление по фамилии\n0. Выход\n");
-                    switch (choice2) {
-                        // Задание 1
-
-                        //inputWinners(winners, n);
-                    case 1:
-                        cout << "\nСортировка по возрасту (по убыванию):\n";
-                        print1(winners, ageIndex, n);
-                        break;
-                    case 2:
-                        cout << "\nСортировка по фамилии (по возрастанию):\n";
-                        print1(winners, surnameIndex, n);
-                        break;
-                    case 3:
-                        cout << "\nВведите фамилию для поиска: ";
-                        cin >> searchSurname;
-                        idx = binarySearchSurname(surnameIndex, searchSurname, 0, n - 1);
-                        if (idx != -1) printWinner(winners[idx]);
-                        else cout << "Не найдено\n";
-                        break;
-                    case 4:
-                        cout << "\nВведите возраст для поиска: ";
-                        cin >> searchAge;
-                        idx2 = binarySearchAge(ageIndex, searchAge, n);
-                        if (idx2 != -1) printWinner(winners[idx2]);
-                        else cout << "Не найдено\n";
-                        break;
-                    case 5:
-                        index = intInput("Введите индекс редактируемого элемента");
-                        editWinner(winners, ageIndex, surnameIndex, index, n);
-                        break;
-                    case 6:
-                        cout << "Введите фамилию удаляемого игрока:";
-                        string surname;
-                        cin >> surname;
-                        deleteWinner(winners, ageIndex, surnameIndex, n, surname);
-                        break;
-                    }
-                } while (choice2 != 0);
-                break;
-                // Задание 2
-            case 2:
+    do {
+        choice = intInput("Выберите номер задания:\n1. Работа с индексами\n2. Работа с бинарным деревом\n3. Работа с линейным списком\n0. Выход\n");
+        switch (choice) {
+        // Задание 1
+        case 1:
+            do {
                 ageIndexation(winners, ageIndex, n);
                 surnameIndexation(winners, surnameIndex, n);
-                for (int i = 0; i < n; i++)
-                    root = inputSurnameBT(root, winners[i].surname, i);
-                do {
-                    choice2 = intInput("Выберите номер задания:\n1. Вывод по фамилии с конца\n2. Поиск по фамилии\n3. Удаление по фамилии\n0. Выход\n");
-                    cin >> choice2;
-                    switch (choice2) {
-                    case 1:
-                        cout << "\nБинарное дерево по фамилии (по алфавиту с конца):\n";
-                        outputSurnameBT(root, winners);
-                        break;
-                    case 2:
-                        cout << "Введите фамилию:\n";
-                        cin >> key;
-                        searchSurnameBT(winners, root, key);
-                        break;
-                    case 3:
-                        cout << "Введите фамилию:\n";
-                        cin >> key;
-                        deleteBT(root, key);
-                        break;
-                    }
-                } while (choice2 != 0);
-            case 3:
-                // Задание 3
-                for (int i = 0; i < n; i++)
-                    insertSortedList(head, winners[i]);
-                do {
-                    choice2 = intInput("Выберите номер задания:\n1. Ввод новой записи\n2. Просмотр записей в порядке их ввода\n3. Просмотр записей по убыванию возраста\n4. Поиск по фамилии\n5. Удаление по фамилии\n0. Выход\n");
-                    switch (choice2) {
-                    case 1:
-                        insertSortedList(head, inputWinner());
-                        break;
-                    case 2:
-                        printLinearListByInput(head);
-                        break;
-                    case 3:
-                        printLinearListByAge(head, n);
-                        break;
-                    case 4:
-                        cout << "Введите фамилию:\n";
-                        cin >> key;
-                        searchSurnameLinear(head, key);
-                        break;
+                choice2 = intInput("Выберите номер задания:\n1. Вывод по убыванию возраста\n2. Вывод по фамилии (по алфавиту)\n3. Поиск по фамилии\n4. Поиск по возрасту\n5. Редактирование по индексу\n6. Удаление по фамилии\n0. Выход\n");
+                switch (choice2) {
 
-                    case 5:
-                        cout << "Введите фамилию:\n";
-                        cin >> key;
-                        deleteSurnameLinear(head, key);
-                        break;
-                    }
-                } while (choice2 != 0);
-            }
+                    //inputWinners(winners, n);
+                case 1:
+                    cout << "\nСортировка по возрасту (по убыванию):\n";
+                    print1(winners, ageIndex, n);
+                    break;
+                case 2:
+                    cout << "\nСортировка по фамилии (по возрастанию):\n";
+                    print1(winners, surnameIndex, n);
+                    break;
+                case 3:
+                    cout << "\nВведите фамилию для поиска: ";
+                    cin >> searchSurname;
+                    idx = binarySearchSurname(surnameIndex, searchSurname, 0, n - 1);
+                    if (idx != -1) printWinner(winners[idx]);
+                    else cout << "Не найдено\n";
+                    break;
+                case 4:
+                    cout << "\nВведите возраст для поиска: ";
+                    cin >> searchAge;
+                    idx2 = binarySearchAge(ageIndex, searchAge, n);
+                    if (idx2 != -1) printWinner(winners[idx2]);
+                    else cout << "Не найдено\n";
+                    break;
+                case 5:
+                    index = intInput("Введите индекс редактируемого элемента");
+                    editWinner(winners, ageIndex, surnameIndex, index, n);
+                    break;
+                case 6:
+                    cout << "Введите фамилию удаляемого игрока:";
+                    string surname;
+                    cin >> surname;
+                    deleteWinner(winners, ageIndex, surnameIndex, n, surname);
+                    break;
+                }
+            } while (choice2 != 0);
             break;
-        } while (choice != 0);
-        // Очистка памяти
-        delete[] winners;
-        delete[] ageIndex;
-        delete[] surnameIndex;
-        deleteBT(root, root->key); // Удаление дерева
-        deleteList(head);
+        // Задание 2
+        case 2:
+            ageIndexation(winners, ageIndex, n);
+            surnameIndexation(winners, surnameIndex, n);
+            for (int i = 0; i < n; i++)
+                root = inputSurnameBT(root, winners[i].surname, i);
+            do {
+                choice2 = intInput("Выберите номер задания:\n1. Вывод по фамилии с конца\n2. Поиск по фамилии\n3. Удаление по фамилии\n0. Выход\n");
+                cin >> choice2;
+                switch (choice2) {
+                case 1:
+                    cout << "\nБинарное дерево по фамилии (по алфавиту с конца):\n";
+                    outputSurnameBT(root, winners);
+                    break;
+                case 2:
+                    cout << "Введите фамилию:\n";
+                    cin >> key;
+                    searchSurnameBT(winners, root, key);
+                    break;
+                case 3:
+                    cout << "Введите фамилию:\n";
+                    cin >> key;
+                    deleteBT(root, key);
+                    break;
+                }
+            } while (choice2 != 0);
+        // Задание 3
+        case 3:
+            for (int i = 0; i < n; i++)
+                insertSortedList(head, winners[i]);
+            do {
+                choice2 = intInput("Выберите номер задания:\n1. Ввод новой записи\n2. Просмотр записей в порядке их ввода\n3. Просмотр записей по убыванию возраста\n4. Поиск по фамилии\n5. Удаление по фамилии\n0. Выход\n");
+                switch (choice2) {
+                case 1:
+                    insertSortedList(head, inputWinner());
+                    break;
+                case 2:
+                    printLinearListByInput(head);
+                    break;
+                case 3:
+                    printLinearListByAge(head, n);
+                    break;
+                case 4:
+                    cout << "Введите фамилию:\n";
+                    cin >> key;
+                    searchSurnameLinear(head, key);
+                    break;
 
-        return 0;
+                case 5:
+                    cout << "Введите фамилию:\n";
+                    cin >> key;
+                    deleteSurnameLinear(head, key);
+                    break;
+                }
+            } while (choice2 != 0);
+        }
+        break;
+    } while (choice != 0);
+    // Очистка памяти
+    delete[] winners;
+    delete[] ageIndex;
+    delete[] surnameIndex;
+    deleteBT(root, root->key); // Удаление дерева
+    deleteList(head);
+
+    return 0;
 }
